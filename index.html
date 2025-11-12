@@ -71,11 +71,139 @@
             });
             root.children.push(skillsNode);
 
-            // You can add other sections like 'projects', 'education', and 'awards' here
-            // following a similar pattern.
+            // Projects
+            const projectsNode = { name: data.headings.projects, children: [] };
+            data.projects.forEach(proj => {
+                const projNode = {
+                    name: proj.name,
+                    // The description can be added as a property if needed later
+                    // description: proj.description, 
+                    children: proj.keywords.map(k => ({ name: k }))
+                };
+                projectsNode.children.push(projNode);
+            });
+            root.children.push(projectsNode);
+
+            // Education
+            const educationNode = { name: data.headings.education, children: [] };
+            data.education.forEach(edu => {
+                educationNode.children.push({ name: `${edu.studyType} in ${edu.area} @ ${edu.institution}` });
+            });
+            root.children.push(educationNode);
+
+            // Awards / Certifications
+            const awardsNode = { name: data.headings.awards, children: [] };
+            data.awards.forEach(award => {
+                awardsNode.children.push({ name: `${award.title} from ${award.awarder}` });
+            });
+            root.children.push(awardsNode);
 
             console.log(root); // Log the new hierarchical structure to the console
 
+            var treemap = d3.tree().size([height, width]);
+            var root_node = d3.hierarchy(root);
+            root_node.x0 = height / 2;
+            root_node.y0 = 0;
+
+            if (root_node.children) root_node.children.forEach(collapse);
+
+            update(root_node);
+
+            function collapse(d) {
+                if (d.children) {
+                    d._children = d.children;
+                    d._children.forEach(collapse);
+                    d.children = null;
+                }
+            }
+
+            function update(source) {
+                var treeData = treemap(root_node);
+                var nodes = treeData.descendants(),
+                    links = treeData.links();
+
+                nodes.forEach(function(d) {
+                    d.y = d.depth * 180;
+                });
+
+                var node = svg.selectAll("g.node")
+                    .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+                var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .attr("transform", function(d) {
+                        return "translate(" + source.y0 + "," + source.x0 + ")";
+                    })
+                    .on("click", click);
+
+                nodeEnter.append('circle')
+                    .attr("r", 1e-6)
+                    .style("fill", function(d) {
+                        return d._children ? "lightsteelblue" : "#fff";
+                    });
+
+                    nodeEnter.append('text')
+                        .attr('x', 0)
+                        .attr('dy', '.35em')
+                        .attr('text-anchor', 'middle')
+                        .text(function(d) { return d.data.name; })
+                        .style('fill', '#000')
+                        .style('font', '12px Anonymous Pro');
+
+                var nodeUpdate = nodeEnter.merge(node);
+                nodeUpdate.transition()
+                    .duration(750)
+                    .attr("transform", function(d) {
+                        return "translate(" + d.y + "," + d.x + ")";
+                    });
+
+                nodeUpdate.select('circle')
+                    .attr("r", 10)
+                    .style('fill', function(d) {
+                        return d._children ? 'lightsteelblue' : '#fff';
+                    });
+
+                var nodeExit = node.exit().transition()
+                    .duration(750)
+                    .attr("transform", function(d) {
+                        return "translate(" + source.y + "," + source.x + ")";
+                    })
+                    .remove();
+
+                nodeExit.select('circle')
+                    .attr("r", 1e-6);
+
+                nodeExit.select('text')
+                    .style('fill-opacity', 1e-6);
+
+
+                var link = svg.selectAll("path.link")
+                    .data(links, function(d) { return d.target.id; });
+
+                link.enter().insert("path", "g")
+                    .attr("class", "link")
+                    .attr("d", function(d) {
+                        var o = { x: source.x0, y: source.y0 };
+                        return diagonal(o, d.target);
+                    })
+                    .style("fill", "none")
+                    .style("stroke", "#ccc")
+                    .style("stroke-width", "2px")
+                    .merge(link)
+                    .transition()
+                    .duration(750)
+                    .attr("d", function(d) {
+                        return diagonal(d.source, d.target);
+                    });
+
+                link.exit().transition()
+                    .duration(750)
+                    .attr("d", function(d) {
+                        var o = { x: source.x, y: source.y };
+                        return diagonal(o, d.target);
+                    })
+                    .remove();
+            }
         });
 
     </script>
