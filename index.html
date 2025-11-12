@@ -231,17 +231,15 @@
 
             // Text wrapping function
             function wrap(text, width) {
-                text.each(function() {
+                text.each(function(d) {
                     var text = d3.select(this),
-                        words = text.text(d.data.name).text().split(/\s+/).reverse(),
+                        words = d.data.name.split(/\s+/).reverse(),
                         word,
                         line = [],
                         lineNumber = 0,
                         lineHeight = 1.1, // ems
-                        y = text.attr("y"),
-                        dy = 1.35, // Initial dy
-                        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-
+                        tspan = text.text(null).append("tspan").attr("x", 0).attr("dy", "0.35em");
+                    
                     while (word = words.pop()) {
                         line.push(word);
                         tspan.text(line.join(" "));
@@ -249,13 +247,14 @@
                             line.pop();
                             tspan.text(line.join(" "));
                             line = [word];
-                            tspan = text.append("tspan")
-                                .attr("x", 0)
-                                .attr("y", y)
-                                .attr("dy", ++lineNumber * lineHeight + dy + "em")
-                                .text(word);
+                            tspan = text.append("tspan").attr("x", 0).attr("dy", (lineNumber + 1) * lineHeight + "em").text(word);
+                            lineNumber++;
                         }
                     }
+
+                    // Center the text block vertically
+                    const textBlockHeight = text.node().getBBox().height;
+                    text.attr("transform", "translate(0," + -textBlockHeight / 2 + ")");
                 });
             }
 
