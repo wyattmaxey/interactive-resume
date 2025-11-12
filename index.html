@@ -15,12 +15,28 @@
             stroke-width: 5px;
             cursor: pointer;
         }
+        #tooltip {
+            position: absolute;
+            padding: 8px;
+            font: 12px "Anonymous Pro", monospace;
+            background: #fff;
+            border: 1px solid #D8D8D8; /* lightGray */
+            color: #2A2A2A; /* darkText */
+            border-radius: 4px;
+            pointer-events: none; /* Prevents tooltip from blocking mouse events */
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
     </style>
 
     <body>
         <div id="app">
             <div id="tree-graph"></div>
         </div>
+        <!-- Tooltip div, initially hidden -->
+        <div id="tooltip"></div>
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
@@ -149,7 +165,22 @@
                     .attr("transform", function(d) {
                         return "translate(" + source.y0 + "," + source.x0 + ")";
                     })
-                    .on("click", (event, d) => click(d));
+                    .on("click", (event, d) => click(d))
+                    .on("mouseover", function(event, d) {
+                        if (d.data.name.length > 64) {
+                            tooltip.transition()
+                                .duration(200)
+                                .style("opacity", .9);
+                            tooltip.html(d.data.name)
+                                .style("left", (event.pageX + 15) + "px")
+                                .style("top", (event.pageY - 28) + "px");
+                        }
+                    })
+                    .on("mouseout", function(d) {
+                        tooltip.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
 
                 nodeEnter.append('circle')
                     .attr("r", 1e-6)
@@ -158,7 +189,16 @@
                     })
                     .style("stroke", primaryColor);
 
-                    nodeEnter.append('text'); // Placeholder for text
+                    nodeEnter.append('text')
+                        .attr('x', 0)
+                        .attr('dy', '1.35em')
+                        .attr('text-anchor', 'middle')
+                        .text(function(d) {
+                            const name = d.data.name;
+                            return name.length > 64 ? name.substring(0, 61) + "..." : name;
+                        })
+                        .style('fill', darkText)
+                        .style('font', '12px Anonymous Pro');
 
                 var nodeUpdate = nodeEnter.merge(node);
                 nodeUpdate.transition()
@@ -172,13 +212,6 @@
                     .style('fill', function(d) {
                         return d._children ? primaryColor : '#fff';
                     });
-                
-                // Update text labels and apply wrapping
-                nodeUpdate.select('text')
-                    .style('fill', darkText)
-                    .style('font', '12px Anonymous Pro')
-                    .attr('text-anchor', 'middle')
-                    .call(wrap, 170); // Call the wrap function with a max width
 
                 var nodeExit = node.exit().transition()
                     .duration(duration)
@@ -193,6 +226,9 @@
                 nodeExit.select('text')
                     .style('fill-opacity', 1e-6);
 
+
+                // Define the tooltip
+                var tooltip = d3.select("#tooltip");
 
                 var link = svg.selectAll("path.link")
                     .data(links, function(d) { return d.target.id; });
@@ -228,36 +264,6 @@
                     d.y0 = d.y;
                 });
             }
-
-            // Text wrapping function
-            function wrap(text, width) {
-                text.each(function(d) {
-                    var text = d3.select(this),
-                        words = d.data.name.split(/\s+/).reverse(),
-                        word,
-                        line = [],
-                        lineNumber = 0,
-                        lineHeight = 1.1, // ems
-                        tspan = text.text(null).append("tspan").attr("x", 0).attr("dy", "0.35em");
-                    
-                    while (word = words.pop()) {
-                        line.push(word);
-                        tspan.text(line.join(" "));
-                        if (tspan.node().getComputedTextLength() > width) {
-                            line.pop();
-                            tspan.text(line.join(" "));
-                            line = [word];
-                            tspan = text.append("tspan").attr("x", 0).attr("dy", (lineNumber + 1) * lineHeight + "em").text(word);
-                            lineNumber++;
-                        }
-                    }
-
-                    // Center the text block vertically
-                    const textBlockHeight = text.node().getBBox().height;
-                    text.attr("transform", "translate(0," + -textBlockHeight / 2 + ")");
-                });
-            }
-
 
             function diagonal(s, d) {
                 return "M" + s.y + "," + s.x
