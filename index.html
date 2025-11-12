@@ -101,7 +101,9 @@
             console.log(root); // Log the new hierarchical structure to the console
 
             var treemap = d3.tree().size([height, width]);
-            var root_node = d3.hierarchy(root);
+            var root_node = d3.hierarchy(root)
+                i = 0
+                duration = 750;
             root_node.x0 = height / 2;
             root_node.y0 = 0;
 
@@ -152,7 +154,7 @@
 
                 var nodeUpdate = nodeEnter.merge(node);
                 nodeUpdate.transition()
-                    .duration(750)
+                    .duration(duration)
                     .attr("transform", function(d) {
                         return "translate(" + d.y + "," + d.x + ")";
                     });
@@ -164,7 +166,7 @@
                     });
 
                 var nodeExit = node.exit().transition()
-                    .duration(750)
+                    .duration(duration)
                     .attr("transform", function(d) {
                         return "translate(" + source.y + "," + source.x + ")";
                     })
@@ -191,13 +193,13 @@
                     .style("stroke-width", "2px")
                     .merge(link)
                     .transition()
-                    .duration(750)
+                    .duration(duration)
                     .attr("d", function(d) {
                         return diagonal(d.source, d.target);
                     });
 
                 link.exit().transition()
-                    .duration(750)
+                    .duration(duration)
                     .attr("d", function(d) {
                         var o = { x: source.x, y: source.y };
                         return diagonal(o, d.target);
