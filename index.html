@@ -6,7 +6,13 @@
     </head>
 
     <style type="text/css">
-
+        .node circle {
+            transition: stroke-width 0.2s ease-in-out;
+        }
+        .node:hover circle {
+            stroke-width: 5px;
+            cursor: pointer;
+        }
     </style>
 
     <body>
@@ -100,6 +106,11 @@
 
             console.log(root); // Log the new hierarchical structure to the console
 
+            // Zillow-inspired color palette
+            const zillowBlue = "#006AFF";
+            const darkText = "#2A2A2A";
+            const lightGray = "#D8D8D8";
+
             var treemap = d3.tree().size([height, width]);
             var root_node = d3.hierarchy(root)
                 i = 0
@@ -141,15 +152,17 @@
                 nodeEnter.append('circle')
                     .attr("r", 1e-6)
                     .style("fill", function(d) {
-                        return d._children ? "lightsteelblue" : "#fff";
-                    });
+                        return d._children ? zillowBlue : "#fff";
+                    })
+                    .style("stroke", zillowBlue)
+                    .style("stroke-width", "2px");
 
                     nodeEnter.append('text')
                         .attr('x', 0)
                         .attr('dy', '1.35em')
                         .attr('text-anchor', 'middle')
                         .text(function(d) { return d.data.name; })
-                        .style('fill', '#000')
+                        .style('fill', darkText)
                         .style('font', '12px Anonymous Pro');
 
                 var nodeUpdate = nodeEnter.merge(node);
@@ -162,7 +175,7 @@
                 nodeUpdate.select('circle')
                     .attr("r", 10)
                     .style('fill', function(d) {
-                        return d._children ? 'lightsteelblue' : '#fff';
+                        return d._children ? zillowBlue : '#fff';
                     });
 
                 var nodeExit = node.exit().transition()
@@ -188,7 +201,7 @@
                         var o = { x: source.x0, y: source.y0 };
                         return diagonal(o, o); // Draw from source to source initially
                     })
-                    .style("fill", "none")
+                    .style("fill", "none") // Links should not be filled
                     .style("stroke", "#ccc")
                     .style("stroke-width", "2px")
                     .merge(link)
@@ -196,15 +209,22 @@
                     .duration(duration)
                     .attr("d", function(d) {
                         return diagonal(d.source, d.target); // Transition to final position
-                    });
+                    })
+                    .style("stroke", lightGray);
 
                 link.exit().transition()
                     .duration(duration)
                     .attr("d", function(d) {
                         var o = { x: source.x, y: source.y };
-                        return diagonal(o, d.target);
+                        return diagonal(o, o);
                     })
                     .remove();
+
+                // Stash the old positions for transition.
+                nodes.forEach(function(d) {
+                    d.x0 = d.x;
+                    d.y0 = d.y;
+                });
             }
 
             function diagonal(s, d) {
