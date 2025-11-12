@@ -191,11 +191,11 @@
 
                     nodeEnter.append('text')
                         .attr('x', 0)
-                        .attr('dy', '1.35em')
+                        .attr('dy', '1.45em')
                         .attr('text-anchor', 'middle')
                         .text(function(d) {
                             const name = d.data.name;
-                            return name.length > 64 ? name.substring(0, 61) + "..." : name;
+                            return name.length > 50 ? name.substring(0, 47) + "..." : name;
                         })
                         .style('fill', darkText)
                         .style('font', '12px Anonymous Pro');
