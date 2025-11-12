@@ -7,6 +7,7 @@
 
     <style type="text/css">
         .node circle {
+            stroke-width: 2px;
             transition: stroke-width 0.2s ease-in-out;
         }
         .node:hover circle {
@@ -24,13 +25,13 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script>
         var margin = {
-            top: 10,
-            right: 10,
-            bottom: 30,
-            left: 360
+            top: 20,
+            right: 120, // Provide space for labels on the right
+            bottom: 20,
+            left: 120  // Provide space for labels on the left
         },
-        width = 1820 - margin.left - margin.right,
-        height = 980 - margin.top - margin.bottom;
+        width = window.innerWidth - margin.left - margin.right,
+        height = window.innerHeight - margin.top - margin.bottom;
 
         var svg = d3.select("#tree-graph").append("svg")
             .attr("width", width + margin.right + margin.left)
@@ -154,8 +155,7 @@
                     .style("fill", function(d) {
                         return d._children ? zillowBlue : "#fff";
                     })
-                    .style("stroke", zillowBlue)
-                    .style("stroke-width", "2px");
+                    .style("stroke", zillowBlue);
 
                     nodeEnter.append('text')
                         .attr('x', 0)
