@@ -158,13 +158,7 @@
                     })
                     .style("stroke", primaryColor);
 
-                    nodeEnter.append('text')
-                        .attr('x', 0)
-                        .attr('dy', '1.35em')
-                        .attr('text-anchor', 'middle')
-                        .text(function(d) { return d.data.name; })
-                        .style('fill', darkText)
-                        .style('font', '12px Anonymous Pro');
+                    nodeEnter.append('text'); // Placeholder for text
 
                 var nodeUpdate = nodeEnter.merge(node);
                 nodeUpdate.transition()
@@ -178,6 +172,13 @@
                     .style('fill', function(d) {
                         return d._children ? primaryColor : '#fff';
                     });
+                
+                // Update text labels and apply wrapping
+                nodeUpdate.select('text')
+                    .style('fill', darkText)
+                    .style('font', '12px Anonymous Pro')
+                    .attr('text-anchor', 'middle')
+                    .call(wrap, 170); // Call the wrap function with a max width
 
                 var nodeExit = node.exit().transition()
                     .duration(duration)
@@ -227,6 +228,37 @@
                     d.y0 = d.y;
                 });
             }
+
+            // Text wrapping function
+            function wrap(text, width) {
+                text.each(function() {
+                    var text = d3.select(this),
+                        words = text.text(d.data.name).text().split(/\s+/).reverse(),
+                        word,
+                        line = [],
+                        lineNumber = 0,
+                        lineHeight = 1.1, // ems
+                        y = text.attr("y"),
+                        dy = 1.35, // Initial dy
+                        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+
+                    while (word = words.pop()) {
+                        line.push(word);
+                        tspan.text(line.join(" "));
+                        if (tspan.node().getComputedTextLength() > width) {
+                            line.pop();
+                            tspan.text(line.join(" "));
+                            line = [word];
+                            tspan = text.append("tspan")
+                                .attr("x", 0)
+                                .attr("y", y)
+                                .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                                .text(word);
+                        }
+                    }
+                });
+            }
+
 
             function diagonal(s, d) {
                 return "M" + s.y + "," + s.x
