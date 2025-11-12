@@ -136,7 +136,7 @@
                     .attr("transform", function(d) {
                         return "translate(" + source.y0 + "," + source.x0 + ")";
                     })
-                    .on("click", click);
+                    .on("click", (event, d) => click(d));
 
                 nodeEnter.append('circle')
                     .attr("r", 1e-6)
@@ -186,7 +186,7 @@
                     .attr("class", "link")
                     .attr("d", function(d) {
                         var o = { x: source.x0, y: source.y0 };
-                        return diagonal(o, d.target);
+                        return diagonal(o, o); // Draw from source to source initially
                     })
                     .style("fill", "none")
                     .style("stroke", "#ccc")
@@ -195,7 +195,7 @@
                     .transition()
                     .duration(duration)
                     .attr("d", function(d) {
-                        return diagonal(d.source, d.target);
+                        return diagonal(d.source, d.target); // Transition to final position
                     });
 
                 link.exit().transition()
@@ -214,7 +214,7 @@
                     + " " + d.y + "," + d.x;
             }
 
-            function click(d) {
+            function click(d) { // 'd' is the node data object
                 if (d.children) {
                     d._children = d.children;
                     d.children = null;
