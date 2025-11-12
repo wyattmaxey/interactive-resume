@@ -108,8 +108,8 @@
 
             console.log(root); // Log the new hierarchical structure to the console
 
-            // Zillow-inspired color palette
-            const zillowBlue = "#006AFF";
+            // Color palette
+            const primaryColor = "#006AFF";
             const darkText = "#2A2A2A";
             const lightGray = "#D8D8D8";
 
@@ -154,9 +154,9 @@
                 nodeEnter.append('circle')
                     .attr("r", 1e-6)
                     .style("fill", function(d) {
-                        return d._children ? zillowBlue : "#fff";
+                        return d._children ? primaryColor : "#fff";
                     })
-                    .style("stroke", zillowBlue);
+                    .style("stroke", primaryColor);
 
                     nodeEnter.append('text')
                         .attr('x', 0)
@@ -176,7 +176,7 @@
                 nodeUpdate.select('circle')
                     .attr("r", 10)
                     .style('fill', function(d) {
-                        return d._children ? zillowBlue : '#fff';
+                        return d._children ? primaryColor : '#fff';
                     });
 
                 var nodeExit = node.exit().transition()
