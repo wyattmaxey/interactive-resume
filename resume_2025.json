@@ -1,0 +1,308 @@
+{
+  "selectedTemplate": 1,
+  "headings": {
+    "work": "Work Experience",
+    "projects": "Projects",
+    "education": "Education",
+    "skills": "Skills",
+    "awards": "Certifications"
+  },
+  "basics": {
+    "name": "Wyatt Maxey",
+    "email": "wemaxey@yahoo.com",
+    "phone": "(704)-517-0353",
+    "website": "",
+    "location": {
+      "address": "Mooresville, NC"
+    }
+  },
+  "education": [
+    {
+      "institution": "North Carolina State University",
+      "location": "Raleigh, NC",
+      "area": "Computer Science",
+      "studyType": "BS",
+      "startDate": "August 2014",
+      "endDate": "May 2018",
+      "gpa": "3.417"
+    }
+  ],
+  "work": [
+    {
+      "highlights": [
+        "Recognized four times with Synchrony Stars Award",
+        "Served as Platform Lead for Synchrony Redshift Enterprise Data Warehouse buildout",
+        "Deployed Redshift Serverless namespaces and workgroups through environments to Production",
+        "Setup Redshift Datashares for different business units in a Producer-Consumer architecture",
+        "Procured DDL scripts for onboarding data warehouse teams to Redshift from on-prem Oracle",
+        "Developed proof-of-concept Lambda function and D3.js dashboard pulling Redshift metadata to aid teams tracking Cloud migration status"
+      ],
+      "company": "Synchrony Financial",
+      "position": "Sr. Data Platform Engineer",
+      "location": "Remote",
+      "startDate": "May 2025",
+      "endDate": "Present"
+    },
+    {
+      "highlights": [
+        "Recognized twice with Synchrony Stars Award",
+        "Nominated twice for I'm an Ally Award",
+        "Led development and deployment of first Databricks use at Ally through production to process applicant fraud check data in a Lakehouse architecture",
+        "Designed and successfully deployed hundreds of resources to Azure with custom Terraform modules",
+        "Led an effort migrating from Azure DevOps to GitLab for SCM and CI/CD",
+        "Led efforts on infrastructure side for annual internal Disaster Recovery exam leveraging Terraform.  Passed with an unofficial record recovery time in 2023 and 2024",
+        "Developed pipelines in Azure Data Factory to leverage change tracking in Azure SQL for daily deliveries of numerous files"
+      ],
+      "company": "Synchrony Financial (formerly Ally Lending)",
+      "position": "Sr. Engineer - Data Systems",
+      "location": "Remote",
+      "startDate": "September 2021",
+      "endDate": "May 2025"
+    },
+    {
+      "highlights": [
+        "Selected by Data Quality Testing executive to join new team in standing up Evidence Based Data Mapping capability for enterprise",
+        "Worked with team on graph data model and logical object model bringing together around 20 different data sources with hundreds of distinct fields",
+        "Led effort designing and implementing RESTful application leveraging billions of records of network sensor data to map server and application dependencies across the enterprise",
+        "Performed initial proof-of-concept analysis to determine relative criticality of given infrastructure using various centrality measures",
+        "Developed batch processing scripts in Python leveraging parallelization to automate data sourcing and merging of massive data sets, with the end result serving as the baseline data set for all subsequent analysis",
+        "Led design and implementation of ETL processes in target-state environment using Python, PySpark, Hive, Neo4j, and Autosys to process millions of records every hour"
+      ],
+      "company": "Bank of America",
+      "position": "Assistant Vice President, Sr. Data Technology Analyst - Evidence Based Data Mapping",
+      "location": "Charlotte, NC",
+      "startDate": "July 2018",
+      "endDate": "September 2021"
+    },
+    {
+      "highlights": [
+        "Automated processing file extracts from business partners and load into SQL Server data testing environment with Python application",
+        "Automated maintenance of data testing metadata from various data sources with Python script, updating results in SQL Server database",
+        "Execute data accuracy tests in Teradata SQL environment"
+      ],
+      "company": "",
+      "position": "Assistant Vice President, Sr. Data Technology Analyst - Data Quality Testing",
+      "location": "",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "highlights": [
+        "Designed and implemented full stack software solutions for the Data Testing team",
+        "Implemented a proof-of-concept RESTful web application creating end-to-end lineage from data quality testing metadata leveraging Neo4j, Java, Spring, JavaScript, and D3.js"
+      ],
+      "company": "Bank of America",
+      "position": "Global Technology and Operations Intern",
+      "location": "Charlotte, NC",
+      "startDate": "June 2017",
+      "endDate": "August 2017"
+    }
+  ],
+  "skills": [
+    {
+      "keywords": [
+        "Lakehouse",
+        "Event-Driven",
+        "Lambda",
+        "Kappa",
+        "Medallion"
+      ],
+      "name": "Cloud Architecture"
+    },
+    {
+      "keywords": [
+        "Agile",
+        "Git",
+        "Object-Oriented Design Patterns",
+        "Data Structures",
+        "Data Modeling"
+      ],
+      "name": "Software Development"
+    },
+    {
+      "keywords": [
+        "Parallelization",
+        "Optimization"
+      ],
+      "name": "(cont)"
+    },
+    {
+      "keywords": [
+        "Redshift",
+        "S3",
+        "Lambda",
+        "Cloudwatch",
+        "Cloudtrail"
+      ],
+      "name": "AWS"
+    },
+    {
+      "keywords": [
+        "Azure Functions",
+        "Event Hub",
+        "Databricks",
+        "Azure Data Factory",
+        "Storage Accounts",
+        "Key Vault"
+      ],
+      "name": "Azure Cloud"
+    },
+    {
+      "keywords": [
+        "Azure Active Directory/Entra",
+        "Role Based Access Control (RBAC)",
+        "Azure CLI"
+      ],
+      "name": "(cont)"
+    },
+    {
+      "name": "DevOps",
+      "keywords": [
+        "Terraform",
+        "GitLab Pipelines",
+        "GitLab Jobs",
+        "Azure DevOps Pipelines",
+        "Cloudbees"
+      ]
+    },
+    {
+      "name": "Programming Languages",
+      "level": "",
+      "keywords": [
+        "Python",
+        "Terraform",
+        "Java",
+        "JavaScript",
+        "SQL",
+        "HTML/CSS",
+        "C",
+        "Cypher"
+      ]
+    },
+    {
+      "keywords": [
+        "Spark",
+        "Spring",
+        "Flask",
+        "Django",
+        "Angular",
+        "Vue.js",
+        "D3.js"
+      ],
+      "name": "Frameworks"
+    },
+    {
+      "keywords": [
+        "Azure SQL",
+        "Neo4j",
+        "SQL Server",
+        "Teradata",
+        "MySQL",
+        "Hive",
+        "Impala"
+      ],
+      "name": "Databases"
+    },
+    {
+      "keywords": [
+        "Scikit-Learn",
+        "Keras",
+        "TensorFlow",
+        "Pandas",
+        "Numpy",
+        "Scipy",
+        "PySpark"
+      ],
+      "name": "Libraries"
+    }
+  ],
+  "projects": [
+    {
+      "keywords": [
+        "Python",
+        "Apache Spark",
+        "PySpark",
+        "Structured Streaming",
+        "Databricks",
+        "Terraform",
+        "Azure Service Bus",
+        "Azure Functions",
+        "Event Hub",
+        "Lakehouse Architecture"
+      ],
+      "name": "Structured Streaming Solution for Real-time Processing of Applicant Fraud Check Data",
+      "description": "Led design, development, and release of structured streaming solution in Databricks delivering real-time processing of applicant fraud check data.  Originally consisted of nearly ten streaming jobs with resources managed by Terraform.  Original codebase was leveraged in expansion to dozens of jobs for similar use cases."
+    },
+    {
+      "keywords": [
+        "Python",
+        "GitLab",
+        "CI/CD",
+        "YAML",
+        "Pipelines",
+        "Jobs",
+        "Terraform",
+        "Azure"
+      ],
+      "name": "Data Platform Tenant, SCM, and CI/CD Migration",
+      "description": "Key team member in migration effort of Data Platform, specifically leading the development of CI/CD pipelines in GitLab and rewriting IaC for all platform resources with Terraform to adhere to enhanced security standards."
+    },
+    {
+      "keywords": [
+        "Python",
+        "Pandas",
+        "Numpy",
+        "Scipy",
+        "PySpark",
+        "Multiprocessing",
+        "JavaScript",
+        "Vue.js",
+        "D3.js",
+        "Flask",
+        "Hive/Impala",
+        "Neo4j",
+        "Cypher"
+      ],
+      "name": "Evidence Based Data Mapping Application",
+      "description": "An enterprise application solution leveraging billions of records of network sensor data to map server and application dependencies across the enterprise."
+    },
+    {
+      "keywords": [
+        "Java",
+        "Spring",
+        "SQL",
+        "Vue.js",
+        "JavaScript",
+        "D3.js"
+      ],
+      "name": "Enterprise Asset Lineage Web Application",
+      "description": "Led development of RESTful web application to interactively display data movement between assets across the enterprise along with risk indicators.  Named in patent filed for process of deriving data movement from data quality testing metadata."
+    }
+  ],
+  "awards": [
+    {
+      "title": "Azure Fundamentals",
+      "date": "December 2024",
+      "awarder": "Microsoft"
+    },
+    {
+      "title": "Azure Data Fundamentals",
+      "date": "January 2025",
+      "awarder": "Microsoft"
+    },
+    {
+      "title": "Azure Data Engineer Associate",
+      "date": "February 2025",
+      "awarder": "Microsoft"
+    }
+  ],
+  "sections": [
+    "templates",
+    "profile",
+    "work",
+    "skills",
+    "projects",
+    "awards",
+    "education"
+  ]
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+    </head>
+
+    <style type="text/css">
+
+    </style>
+
+    <body>
+        <div id="app">
+            <div id="tree-graph"></div>
+        </div>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        var margin = {
+            top: 10,
+            right: 10,
+            bottom: 30,
+            left: 360
+        },
+        width = 1820 - margin.left - margin.right,
+        height = 980 - margin.top - margin.bottom;
+
+        var svg = d3.select("#tree-graph").append("svg")
+            .attr("width", width + margin.right + margin.left)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        var url = "resume_2025.json";
+
+        d3.json(url).then(function(data) {
+            // Restructure the flat JSON data into a hierarchical format for D3
+            const root = {
+                name: data.basics.name,
+                children: []
+            };
+
+            // Work Experience
+            const workNode = { name: data.headings.work, children: [] };
+            data.work.forEach(job => {
+                if (job.company) { // Skip empty entries
+                    const jobNode = {
+                        name: `${job.position} @ ${job.company}`,
+                        children: job.highlights.map(h => ({ name: h }))
+                    };
+                    workNode.children.push(jobNode);
+                }
+            });
+            root.children.push(workNode);
+
+            // Skills
+            const skillsNode = { name: data.headings.skills, children: [] };
+            data.skills.forEach(skillCat => {
+                // Handle the "(cont)" entries by merging with the previous category
+                if (skillCat.name === "(cont)" && skillsNode.children.length > 0) {
+                    const prevNode = skillsNode.children[skillsNode.children.length - 1];
+                    prevNode.children.push(...skillCat.keywords.map(k => ({ name: k })));
+                } else {
+                    const skillCatNode = {
+                        name: skillCat.name,
+                        children: skillCat.keywords.map(k => ({ name: k }))
+                    };
+                    skillsNode.children.push(skillCatNode);
+                }
+            });
+            root.children.push(skillsNode);
+
+            // You can add other sections like 'projects', 'education', and 'awards' here
+            // following a similar pattern.
+
+            console.log(root); // Log the new hierarchical structure to the console
+
+        });
+
+    </script>
