@@ -111,16 +111,18 @@
     },
     {
       "keywords": [
+        "Copilot",
+        "Gemini Code Assist",
         "Agile",
         "Git",
         "Object-Oriented Design Patterns",
-        "Data Structures",
-        "Data Modeling"
+        "Data Structures"
       ],
       "name": "Software Development"
     },
     {
       "keywords": [
+        "Data Modeling",
         "Parallelization",
         "Optimization"
       ],
